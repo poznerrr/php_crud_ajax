@@ -18,7 +18,36 @@ if (isset($data['page'])) {
     $start = $pagination->get_start();
     $cities = getCities($start, $perPage);
     require_once 'views/index-content.tpl.php';
+    die();
 }
 
+// Add city
+if (isset($_POST['addCity'])) {
+    $data = $_POST;
+    $validator = new Validator();
+    $validation = $validator->validate($data, [
+        'name' => [
+            'required' => true
+        ],
+        'population' => [
+            'minNum' => 1,
+        ]
+    ]);
+    if ($validation->hasErrors()) {
+        $errors = '<ul class="list-unstyled text-start text-danger">';
+        foreach ($validation->getErrors() as $v) {
+            foreach ($v as $error) {
+                $errors .= "<li>{$error}</li>";
+            }
+        }
+        $errors .= '</ul>';
+        $res = ['answer' => 'error', 'errors' => $errors];
+    } else {
+        $db->query("INSERT INTO city (`name`, `population`) VALUES (?,?)", [$data['name'], $data['population']]);
+        $res = ['answer' => 'success'];
+    }
+    echo json_encode($res);
+    die();
+}
 
 
