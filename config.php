@@ -11,5 +11,5 @@ return [
             PDO::ATTR_DEFAULT_FETCH_MODE =>PDO::FETCH_ASSOC,
         ],
     ],
-    'per_page'=>10,
+    'perPage'=>10,
 ];

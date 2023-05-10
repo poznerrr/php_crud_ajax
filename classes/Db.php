@@ -58,7 +58,7 @@ class Db
         return $this->stmt->fetch();
     }
 
-    public function findAll()
+    public function findAll(): ?array
     {
         return $this->stmt->fetchAll();
     }
