@@ -8,6 +8,7 @@
     <title>PHP CRUD wit AJAX, MySQL and BOOTSTRAP</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
 </head>
 <body>
 
@@ -23,39 +24,7 @@
                 </button>
             </div>
             <div class="table-responsive my-3">
-                <?php if (!empty($cities)): ?>
-                <?= $pagination ?>
-                    <table class="table table-hover">
-                        <thead class="table-dark">
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Population</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($cities as $city): ?>
-                            <tr id="city-<?= $city['id'] ?>">
-                                <th scope="row"><?= $city['id'] ?></th>
-                                <td><?= $city['name'] ?></td>
-                                <td><?= $city['population'] ?></td>
-                                <td>
-                                    <button class="btn btn-info btn-edit" data-id="<?= $city['id'] ?>"
-                                            data-bs-toggle="modal" data-bs-target="#editCity">Edit
-                                    </button>
-                                    <button class="btn btn-danger btn-delete" data-id="<?= $city['id'] ?>">
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    <?= $pagination ?>
-                <?php else: ?>
-                    <p>Cities not found...</p>
-                <?php endif; ?>
+                <?php require_once 'views/index-content.tpl.php' ?>
             </div>
         </div>
     </div>
@@ -99,5 +68,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+<script src="/assets/main.js"></script>
 </body>
 </html>

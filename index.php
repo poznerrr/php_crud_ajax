@@ -8,7 +8,7 @@ $db = Db::getInstance()->getConnection($config['db']);
 $total = getCount('city');
 $page = $_GET['page'] ?? 1;
 $perPage = $config['perPage'];
-$pagination = new Pagination($page, $perPage, $total);
+$pagination = new Pagination((int)$page, $perPage, $total);
 $start = $pagination->get_start();
 $cities = getCities($start, $perPage);
 
