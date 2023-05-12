@@ -50,4 +50,62 @@ if (isset($_POST['addCity'])) {
     die();
 }
 
+//Get city
+if (isset($data['action']) && $data['action'] == 'get_city') {
+    $id = isset($data['id']) ? (int)$data['id'] : 0;
+    $city = $db->query("SELECT * FROM city WHERE id = ?", [$id])->find();
+    if ($city) {
+        $res = ['answer' => 'success', 'city' => $city];
+    } else {
+        $res = ['answer' => 'error'];
+    }
+    echo json_encode($res);
+    die();
+}
+
+
+// Edit city
+if (isset($_POST['editCity'])) {
+    $data = $_POST;
+    $validator = new Validator();
+    $validation = $validator->validate($data, [
+        'name' => [
+            'required' => true
+        ],
+        'population' => [
+            'minNum' => 1,
+        ],
+        'id' => [
+            'minNum' => 1
+        ],
+    ]);
+    if ($validation->hasErrors()) {
+        $errors = '<ul class="list-unstyled text-start text-danger">';
+        foreach ($validation->getErrors() as $v) {
+            foreach ($v as $error) {
+                $errors .= "<li>{$error}</li>";
+            }
+        }
+        $errors .= '</ul>';
+        $res = ['answer' => 'error', 'errors' => $errors];
+    } else {
+        $db->query("UPDATE city SET `name` = ?, `population` = ? WHERE id = ?", [$data['name'], $data['population'], $data['id']]);
+        $res = ['answer' => 'success'];
+    }
+    echo json_encode($res);
+    die();
+}
+
+//Delete city
+if (isset($data['action']) && $data['action'] == 'delete_city') {
+    $id = isset($data['id']) ? (int)$data['id'] : 0;
+    $res = $db->query("DELETE FROM city WHERE id = ?", [$id]);
+    if ($res) {
+        $res = ['answer' => 'success'];
+    } else {
+        $res = ['answer' => 'error'];
+    }
+    echo json_encode($res);
+    die();
+}
 
