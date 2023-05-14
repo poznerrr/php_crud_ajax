@@ -12,7 +12,7 @@ divTable.addEventListener(('click'), (e) => {
             })
                 .then((response) => response.text())
                 .then((data) => {
-                    document.querySelector('.table-responsive').innerHTML = data;
+                    divTable.innerHTML = data;
                 });
         }
     }
@@ -126,5 +126,40 @@ editCityForm.addEventListener('submit', (e) => {
                 btnEditSubmit.disabled = false;
             }, 1000);
 
+        });
+})
+
+//Search
+const sField = document.getElementById('search');
+const loader = document.getElementById('loader');
+sField.addEventListener('input', (e) => {
+    let search = e.target.value.trim();
+    if (search.length > 2) {
+        fetch('actions.php', {
+            method: 'POST',
+            body: JSON.stringify({search: search})
+        })
+            .then((response) => response.text())
+            .then((data) => {
+                loader.style.display = 'block';
+                setTimeout(() => {
+                    divTable.innerHTML = data;
+                    let instance = new Mark(divTable);
+                    instance.mark(search);
+                    loader.style.display = 'none';
+                }, 500);
+            });
+    }
+})
+
+document.getElementById('clear-search').addEventListener('click', () => {
+    sField.value = '';
+    fetch('actions.php', {
+        method: 'POST',
+        body: JSON.stringify({page: 1})
+    })
+        .then((response) => response.text())
+        .then((data) => {
+            divTable.innerHTML = data;
         });
 })

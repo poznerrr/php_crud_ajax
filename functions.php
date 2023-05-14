@@ -11,7 +11,14 @@ function getCount(string $table): int
     return $db->query("SELECT COUNT(*) FROM {$table}")->findColumn();
 }
 
-function getCities(int $start, int $perPage) : array {
+function getCities(int $start, int $perPage): array
+{
     global $db;
     return $db->query("SELECT * FROM city LIMIT $start, $perPage")->findAll();
+}
+
+function searchCities(string $search): array
+{
+    global $db;
+    return $db->query("SELECT * FROM city WHERE name LIKE ?", ["%{$search}%"])->findAll();
 }

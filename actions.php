@@ -9,6 +9,13 @@ $db = Db::getInstance()->getConnection($config['db']);
 
 $data = json_decode(file_get_contents('php://input'), true); //вариант получения json из запроса
 
+//Search
+if (isset($data['search'])) {
+    $search = trim($data['search']);
+    $searchCities = searchCities($search);
+    require_once 'views/search.tpl.php';
+    exit();
+}
 //pagination
 if (isset($data['page'])) {
     $page = (int)$data['page'];
@@ -18,7 +25,7 @@ if (isset($data['page'])) {
     $start = $pagination->get_start();
     $cities = getCities($start, $perPage);
     require_once 'views/index-content.tpl.php';
-    die();
+    exit();
 }
 
 // Add city
